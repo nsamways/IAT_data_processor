@@ -1,7 +1,7 @@
 '''
 Created on 27 Mar 2017
 
-@author: id121943
+@author: neale samways
 '''
 
 import os, glob, csv
