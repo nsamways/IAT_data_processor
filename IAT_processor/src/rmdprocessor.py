@@ -8,27 +8,22 @@ import os, glob, csv
 import numpy as np
 
 # results header index's
-participant_condition = 0
-participant_correct = 1
-participant_response_time = 2
-participant_stim_type = 3
-participant_target = 4
+participant_response = 0    # a for rape/positive, l for no rape/ negative
+participant_response_time = 1
+participant_truth_condition = 2
+participant_vignette_number = 3
 
 
-
-lower_bound = 300
-higher_bound = 3000
-
-print("IAT Results processor")
+print("Results processor")
 
 path = os.curdir
 
 # variables
-score_array = []
-
+positive = []
+negative = []
+pos_total = 0
+neg_total = 0
 # untransformed score arrays
-cond3_untransformed = []
-cond5_untransformed = []
 
 # do a glob to get the files in the directory *BEFORE* creating the output file
 existing_files = glob.glob(os.path.join(path, '*.csv'))
@@ -39,24 +34,20 @@ if len(existing_files) > 0:
     out_handle = csv.writer(out_name)
 
     # write the headers
-    out_handle.writerow(['Participant' , 'Difference', ' Correct', 'Percent Correct', 'Processed trials', 'Lower bounded', 'upper bounded'])
+    out_handle.writerow(['Participant' , 'mean positive', 'mean negative', 'difference', ])
     
 for current_file in existing_files:
   
     print("Now processing" + current_file)
     
     # clear variables and arrays    
-    summed_score = 0
+    pos_total = 0
+    neg_total = 0
     processed_trials = 0
     
-    cond3_status = 0
-    cond5_status = 0
-
-    lb_count = 0
-    hb_count = 0
-
-    del cond3_untransformed[:]
-    del cond5_untransformed[:]
+ 
+    del positive[:]
+    del negative[:]
  
     # open CSV and read in line by line
     with open(current_file, 'rb') as f:
