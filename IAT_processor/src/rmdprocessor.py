@@ -75,15 +75,43 @@ for current_file in existing_files:
                     positive_post.append(curr_row[participant_response_time])
 
                 else:   #negative
-                   negative_post.append(curr_row[participant_response_time])                
+                    negative_post.append(curr_row[participant_response_time])                
  
         # calculate the averages etc.
+        # positive pre
+        if (len(positive_pre) > 0):
+            pos_pre_mean = (sum(positive_pre) / len(positive_pre))
+        else:
+            pos_pre_mean = 0
         
-      
-        #write name (clean current file first)
-        infilename = current_file[2:]
-        linedata = [infilename, diff_score, summed_score, per_corr, processed_trials, lb_count, hb_count] 
+        # negative pre
+        if (len(negative_pre) > 0):
+            negative_pre_mean = (sum(negative_pre)/ len(negative_pre)) 
+        else:
+            neg_pre_mean = 0
+    
+        # positive post
+        if (len(positive_post) > 0):
+            pos_post_mean = (sum(positive_post)/ len(positive_post)) 
+        else:
+            pos_post_mean = 0        
+        # nesgaive post
+        if (len(negative_post) > 0):
+            neg_post_mean = (sum(negative_post)/ len(negative_post)) 
+        else:
+            neg_post_mean = 0      
+    #write name (clean current file first)
+    diff_pre_mean = pos_pre_mean - neg_pre_mean
+    diff_post_mean = pos_post_mean - neg_post_mean
+    
+    infilename = current_file[2:]
+    linedata = [infilename, pos_pre_mean, neg_pre_mean,diff_pre_mean, pos_post_mean, neg_post_mean, diff_post_mean ] 
+
+    if (participant_truth_condition) = 'f' 
+    
+    else:
         out_handle.writerow(linedata)
+
 print('Processed ' + str(len(existing_files)) + ' results files')
 #close the outfile
 out_name_1.close()
