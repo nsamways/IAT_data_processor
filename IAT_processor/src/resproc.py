@@ -35,7 +35,7 @@ existing_files = glob.glob(os.path.join(path, '*.csv'))
 
 if len(existing_files) > 0:
     # open outfile
-    out_name = open(os.path.join(path, 'processedResults.csv'),'wb') 
+    out_name = open(os.path.join(path, 'processedResults.csv'),'w',newline='') 
     out_handle = csv.writer(out_name)
 
     # write the headers
@@ -59,7 +59,7 @@ for current_file in existing_files:
     del cond5_untransformed[:]
  
     # open CSV and read in line by line
-    with open(current_file, 'rb') as f:
+    with open(current_file, 'r') as f:
         # discard first line, which contains the headers
         next(f)
         # read in the remainder of the file

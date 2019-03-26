@@ -5,7 +5,6 @@ Created on 27 Mar 2017
 '''
 
 import os, glob, csv
-import numpy as np
 
 # results header index's
 participant_response = 0    # a for rape/positive, l for no rape/ negative
@@ -52,8 +51,6 @@ for current_file in existing_files:
     del positive_post[:]
     del negative_post[:]    
     
-
-    
     # open CSV and read in line by line
     with open(current_file, 'rb') as f:
         # discard first line, which contains the headers
@@ -62,20 +59,20 @@ for current_file in existing_files:
         read_in = csv.reader(f)
         for curr_row in read_in:
         #  this is at the `row` level        
-            
+            condition = curr_row[participant_truth_condition]
             # check whether this is before or after the intervention
             if (float(curr_row[participant_vignette_number]) < 5):  # PRE
                 if(curr_row[participant_response] == 'a'):  # positive
-                    positive_pre.append(curr_row[participant_response_time])
+                    positive_pre.append(float(curr_row[participant_response_time]))
 
                 else:   #negative
-                    negative_pre.append(curr_row[participant_response_time])      
+                    negative_pre.append(float(curr_row[participant_response_time]))      
             else:   # POST
                 if(curr_row[participant_response] == 'a'):  # positive
-                    positive_post.append(curr_row[participant_response_time])
+                    positive_post.append(float(curr_row[participant_response_time]))
 
                 else:   #negative
-                    negative_post.append(curr_row[participant_response_time])                
+                    negative_post.append(float(curr_row[participant_response_time]))                
  
         # calculate the averages etc.
         # positive pre
@@ -86,7 +83,7 @@ for current_file in existing_files:
         
         # negative pre
         if (len(negative_pre) > 0):
-            negative_pre_mean = (sum(negative_pre)/ len(negative_pre)) 
+            neg_pre_mean = (sum(negative_pre)/ len(negative_pre)) 
         else:
             neg_pre_mean = 0
     
@@ -100,6 +97,7 @@ for current_file in existing_files:
             neg_post_mean = (sum(negative_post)/ len(negative_post)) 
         else:
             neg_post_mean = 0      
+
     #write name (clean current file first)
     diff_pre_mean = pos_pre_mean - neg_pre_mean
     diff_post_mean = pos_post_mean - neg_post_mean
@@ -107,17 +105,15 @@ for current_file in existing_files:
     infilename = current_file[2:]
     linedata = [infilename, pos_pre_mean, neg_pre_mean,diff_pre_mean, pos_post_mean, neg_post_mean, diff_post_mean ] 
 
-    if (participant_truth_condition) = 'f' 
-    
-    else:
-        out_handle.writerow(linedata)
-
+    if (condition) == 'F':    # fact
+        out_handle_fact.writerow(linedata)   
+    else:    # myth
+        out_handle_myth.writerow(linedata)
+        
 print('Processed ' + str(len(existing_files)) + ' results files')
-#close the outfile
-out_name_1.close()
+
+#close the outfiles
+out_name_fact.close()
+out_name_myth.close()
 
 
-def ( parameters ):
-   "function_docstring"
-   function_suite
-   return [expression]
